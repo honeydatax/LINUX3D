@@ -2,8 +2,11 @@
 
 #include<stdio.h>
 #include<stdlib.h>
-#include<X11/X.h>
-#include<X11/Xlib.h>
+#include <X11/X.h>
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <X11/Xos.h>
+
 #include<GL/gl.h>
 #include<GL/glx.h>
 #include<GL/glu.h>
@@ -21,7 +24,7 @@ XEvent                  xev;
 void hello();
 
 void hello() {
- glClearColor(1.0, 1.0, 1.0, 1.0);
+ glClearColor(1.0,0.0,0.0, 1.0);
  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
  glMatrixMode(GL_PROJECTION);
@@ -33,10 +36,10 @@ void hello() {
  gluLookAt(0., 0., 10., 0., 0., 0., 0., 1., 0.);
 
  glBegin(GL_QUADS);
-  glColor3f(1., 0.3, 0.); glVertex3f(-.1, -.1, 0.);
-  glColor3f(1., 0.3, 0.); glVertex3f( .1, -.1, 0.);
-  glColor3f(1., 0.3, 0.); glVertex3f( .1,  .1, 0.);
-  glColor3f(1., 0.3, 0.); glVertex3f(-.1,  .1, 0.);
+  glColor3f(1., 0.5, 0.); glVertex3f(-.1, -.1, 0.);
+  glColor3f(1., 0.5, 0.); glVertex3f( .1, -.1, 0.);
+  glColor3f(1., 0.5, 0.); glVertex3f( .1,  .1, 0.);
+  glColor3f(1., 0.5, 0.); glVertex3f(-.1,  .1, 0.);
  glEnd();
 } 
  
@@ -69,6 +72,10 @@ int main(int argc, char *argv[]) {
  win = XCreateWindow(dpy, root, 0, 0, 320, 240, 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
 
  XMapWindow(dpy, win);
+ Atom WM_DELETE_WINDOW = XInternAtom(dpy, "WM_DELETE_WINDOW", False); 
+  XSetWMProtocols(dpy, win, &WM_DELETE_WINDOW, 1);  
+
+
  XStoreName(dpy, win, "LINUX 3D");
  
  glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
@@ -86,7 +93,11 @@ int main(int argc, char *argv[]) {
                 glXSwapBuffers(dpy, win);
         }
                 
-        else if(xev.type == KeyPress) {
+
+
+        else if(xev.type == KeyPress || xev.type == ClientMessage && 
+        static_cast<unsigned int>(xev.xclient.data.l[0]) == WM_DELETE_WINDOW)
+{
                 glXMakeCurrent(dpy, None, NULL);
                 glXDestroyContext(dpy, glc);
                 XDestroyWindow(dpy, win);
