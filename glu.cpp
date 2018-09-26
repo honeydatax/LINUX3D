@@ -35,11 +35,11 @@ void hello() {
  glLoadIdentity();
  gluLookAt(0., 0., 10., 0., 0., 0., 0., 1., 0.);
 
- glBegin(GL_QUADS);
+ glBegin(GL_TRIANGLES);
   glColor3f(1., 0.5, 0.); glVertex3f(-.1, -.1, 0.);
   glColor3f(1., 0.5, 0.); glVertex3f( .1, -.1, 0.);
   glColor3f(1., 0.5, 0.); glVertex3f( .1,  .1, 0.);
-  glColor3f(1., 0.5, 0.); glVertex3f(-.1,  .1, 0.);
+  //glColor3f(1., 0.5, 0.); glVertex3f(-.1,  .1, 0.);
  glEnd();
 } 
  
