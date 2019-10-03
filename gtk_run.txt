@@ -1,0 +1,1 @@
+ g++ -Wall -o out file.cpp `pkg-config gtk+-3.0 --cflags --libs
