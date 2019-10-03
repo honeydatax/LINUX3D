@@ -15,8 +15,8 @@
 int global=0;
 int global2=0;
 int status;
-float ox=-0.6;
-float oy=-0.6;
+float ox=0.6;
+float oy=0.6;
 Display                 *dpy;
 Window                  root;
 GLint                   att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
@@ -33,11 +33,11 @@ void on_refresh();
 
 
 void on_timer(){
-		usleep(1000);
-		ox=ox+0.1;
-		oy=oy+0.1;
-		if (ox>0.9) ox=-1.0;
-		if (oy>0.9) oy=-1.0;
+		usleep(2000);
+		ox=ox-0.1;
+		oy=oy-0.1;
+		if (ox<-0.9) ox=1.0;
+		if (oy,-0.9) oy=1.0;
 		on_refresh();		
 		
 		
@@ -57,7 +57,7 @@ void render() {
  glLoadIdentity();
 
 
-gluLookAt(ox, oy, 10,ox, oy, 0., 0., 1., 0.);
+gluLookAt(ox, 0.0, 10,ox, 0.0, 0., 0., 1., 0.);
 
 
  glBegin(GL_QUADS);
